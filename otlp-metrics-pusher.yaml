@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otlp-metrics-pusher
+  labels:
+    app: otlp-metrics-pusher
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: otlp-metrics-pusher
+  template:
+    metadata:
+      labels:
+        app: otlp-metrics-pusher
+    spec:
+      containers:
+      - name: otlp-metrics-pusher
+        image: gadzicmladjan/otlp-metrics-pusher:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: OTLP_ENDPOINT
+          value: http://mycluster-frontend.default.svc.cluster.local:4000/v1/otlp/v1/metrics
